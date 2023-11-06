@@ -15,35 +15,22 @@ exports.userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, USER_SCHEMA_VALIDATION_ERRORS.VALID_EMAIL],
   },
-  firstName: {
-    type: String,
-    description: "The user's first name. The name slackbot cannot be used. Updating first_name will update the first name within realName.",
-    required: [true, USER_SCHEMA_VALIDATION_ERRORS.FIRST_NAME]
-  },
   profilePicture: {
     type: String,
     description: "These various fields will contain https URLs that point to square ratio, web-viewable images (GIFs, JPEGs, or PNGs) that represent different sizes of a user's profile picture."
-  },
-  lastName: {
-    type: String,
-    description: "The user's last name. The name slackbot cannot be used. Updating last_name will update the second name within real_name.",
-  },
-  phone: {
-    type: String,
-    description: "The user's phone number, in any format."
   },
   pronouns: {
     type: String,
     description: "The pronouns the user prefers to be addressed by.",
     enum: {
-      values: ['She/Her', 'He/Him'],
+      values: ['she/her', 'he/him', 'they/them'],
       message: USER_SCHEMA_VALIDATION_ERRORS.INVALID_PRONOUN,
     },
   },
-  realName: {
+  fullName: {
     type: String,
     description: "The user's first and last name. Updating this field will update first_name and last_name. If only one name is provided, the value of last_name will be cleared.",
-    required: [true, USER_SCHEMA_VALIDATION_ERRORS.FIRST_NAME]
+    required: [true, USER_SCHEMA_VALIDATION_ERRORS.FULL_NAME]
   },
   startDate: {
     type: Date,
