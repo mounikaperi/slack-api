@@ -13,6 +13,7 @@ exports.getOne = (Model, options) =>
         ),
       );
     }
+    console.log('Entered getOne');
     let query = Model.findById(request.params.id);
     if (options) query = query.populate(options);
     const returnedDocument = await query;

@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --testTimeout=50000"
   },
   "repository": {
     "type": "git",
@@ -13,6 +13,38 @@
   },
   "author": "'Sai Mounika Peri",
   "license": "ISC",
+  "jest": {
+    "resetMocks": true,
+    "restoreMocks": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov"
+    ],
+    "verbose": true,
+    "testResultsProcessor": "jest-sonar-reporter",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+    "coveragePathIgnorePatterns": [],
+    "coverageThreshold": {
+      "global": {
+        "lines": 0
+      }
+    },
+    "moduleNameMapper": {
+      "axios": "axios/dist/node/axios.cjs"
+    }
+  },
+  "jest-junit": {
+    "outputDirectory": "test-reports/unit",
+    "outputName": "junit.xml"
+  },
+  "jest-sonar": {
+    "reportPath": "reports",
+    "reportFile": "test-reporter.xml",
+    "indent": 4
+  },
   "devDependencies": {
     "eslint": "^8.53.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -22,13 +54,19 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0",
+    "jest-sonar-reporter": "^2.0.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3"
   },
   "dependencies": {
+    "chai": "^4.3.10",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mongoose": "^8.0.0",
+    "supertest": "^6.3.3",
     "validator": "^13.11.0"
   }
 }
