@@ -3,6 +3,10 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+router.post('/signUpWithMagicalCode', authController.signUpWithMagicalCode);
+router.post('/signInWithEmailPassword', authController.signInWithEmailPassword);
+// router.post('signUpWithOAuth', authController.signUpWithOAuth);
+
 router.post('/', userController.createUser);
 
 router
