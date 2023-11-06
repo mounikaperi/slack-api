@@ -1,0 +1,24 @@
+{
+  "name": "slack-api",
+  "version": "1.0.0",
+  "description": "Slack api to pull data form mongodb and serve to slack-web",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mounikaperi/slack-api.git"
+  },
+  "author": "'Sai Mounika Peri",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  }
+}
