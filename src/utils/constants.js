@@ -35,3 +35,12 @@ exports.HTTP_STATUS_MESSAGES = {
 exports.COMMON_MODEL_ERRORS = {
   NO_DOCUMENT_FOUND: 'No document found with that ID',
 };
+
+exports.USER_SCHEMA_VALIDATION_ERRORS = {
+  VALID_EMAIL: 'The email address specified is not valid. Email cannot contain spaces and must have an @ and domain',
+  EMAIL: 'Email address is required',
+  FIRST_NAME: 'First name is mandatory',
+  LAST_NAME: 'Last name is mandatory',
+  INVALID_PRONOUN: 'Invalid pronoun choosen',
+  INVALID_ID: '_id doesnt match type of ObjectId. Please input proper _id'
+}

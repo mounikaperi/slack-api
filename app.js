@@ -3,6 +3,8 @@ const userRouter = require('./src/routes/userRouter');
 
 const app = express();
 
+app.use(express.json({ limit: '10kb' }));
+
 // Test Middleware
 app.use((req, res, next) => {
   console.log('Hello from middleware');
