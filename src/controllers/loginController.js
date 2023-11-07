@@ -4,10 +4,7 @@ const sendEmail = require('../utils/email');
 const User = require('../models/userModel');
 const { HTTP_STATUS_CODES, HTTP_STATUS, USER_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
 
-// This route allows user to sign up to create a new workspace. 
-// A passcode will be sent to email
-// User has to read the code from email enter then he will be allowed to create a workspace
-exports.createSignUpMagicalCode = catchAsync(async (request, response, next) => {
+exports.createSignInMagicalCode = catchAsync(async (request, response, next) => {
   // Step-1 First Create a user object with entered email
   if (!request.body.email && !request.body.fullName) {
     return next(
@@ -50,7 +47,7 @@ exports.createSignUpMagicalCode = catchAsync(async (request, response, next) => 
   }
 });
 
-exports.signUpWithMagicalCode = catchAsync(async (request, response, next) => {
+exports.signInWithMagicalCode = catchAsync(async (request, response, next) => {
   // Get user based on confirmationCode
   const user = await User.findOne({
     signUpConfirmationToken: request.params.code,
