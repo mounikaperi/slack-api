@@ -4,7 +4,8 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.post('/signUpWithMagicalCode', authController.signUpWithMagicalCode);
+router.post('/createSignUpMagicalCode', authController.createSignUpMagicalCode);
+router.patch('/signUpWithMagicalCode/:code', authController.signUpWithMagicalCode)
 // router.post('/signInWithEmailPassword', authController.signInWithEmailPassword);
 // router.post('signUpWithOAuth', authController.signUpWithOAuth);
 

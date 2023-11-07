@@ -6,7 +6,6 @@ const { HTTP_STATUS_CODES, HTTP_STATUS } = require('../utils/constants');
 exports.getUser = () => factoryHandler.getOne(User);
 
 exports.createUser = catchAsync (async (request, response, next) => {
-  console.log(request.body);
   const newUser = await User.create({
     title: request.body.title,
     fullName: request.body.fullName,

@@ -7,8 +7,8 @@ const { HTTP_STATUS_CODES, HTTP_STATUS, USER_SCHEMA_VALIDATION_ERRORS } = requir
 // This route allows user to sign up to create a new workspace. 
 // A passcode will be sent to email
 // User has to read the code from email enter then he will be allowed to create a workspace
-exports.signUpWithMagicalCode = catchAsync(async (request, response, next) => {
-  // First Create a user object with entered email
+exports.createSignUpMagicalCode = catchAsync(async (request, response, next) => {
+  // Step-1 First Create a user object with entered email
   if (!request.body.email && !request.body.fullName) {
     return next(
       new AppError(USER_SCHEMA_VALIDATION_ERRORS.EMAIL_NOT_PRESENT),
@@ -19,15 +19,15 @@ exports.signUpWithMagicalCode = catchAsync(async (request, response, next) => {
     fullName: request.body.fullName,
     email: request.body.email
   });
-  // Create reset token valid for 10 mins
+  // Step-2 Create confirmationCode valid for 10 mins
   const confirmationCode = newUser.createSignUpConfirmationCode();
   await newUser.save({ validateBeforeSave: false });
-  // send it to user's email
   const message = `
   Your confirmation code is below- enter it in your open browser window and we'll help you get signed in.
   ${confirmationCode}
   If you didn't request this email, there's nothing to worry about - you can safely ignore it.
   `;
+  // Step-3 Send the confirmationCode to email
   try {
     await sendEmail({
       email: newUser.email,
@@ -48,4 +48,26 @@ exports.signUpWithMagicalCode = catchAsync(async (request, response, next) => {
       HTTP_STATUS_CODES.SERVER_ERROR_RESPONSE.INTERNAL_SERVER_ERROR
     );
   }
+});
+
+exports.signUpWithMagicalCode = catchAsync(async (request, response, next) => {
+  // Get user based on confirmationCode
+  const user = await User.findOne({
+    signUpConfirmationToken: request.params.code,
+    signUpCodeExpiresIn: { $gt: Date.now() }
+  });
+  // If the code hasn't expired and the user is present, allow to welcome screen of slack-web
+  if (!user) {
+    return next(
+      new AppError(USER_SCHEMA_VALIDATION_ERRORS.EXPIRED_CONFIRMATION_CODE),
+      HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.BAD_REQUEST
+    );
+  }
+  user.signUpConfirmationToken = undefined;
+  user.signUpCodeExpiresIn = undefined;
+  await user.save();
+  response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK).json({
+    status: HTTP_STATUS.SUCCESS,
+    message: 'You are now signed up to Slack'
+  });
 });

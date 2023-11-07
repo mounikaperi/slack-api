@@ -43,5 +43,6 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   INVALID_PRONOUN: 'Invalid pronoun choosen',
   INVALID_ID: '_id doesnt match type of ObjectId. Please input proper _id',
   EMAIL_NOT_SENT: 'There was an error sending the email. Try again later!',
-  EMAIL_NOT_PRESENT: 'Please provide user email address to signup'
+  EMAIL_NOT_PRESENT: 'Please provide user email address to signup',
+  EXPIRED_CONFIRMATION_CODE: 'Confirmation Code is invalid or has expired'
 }
