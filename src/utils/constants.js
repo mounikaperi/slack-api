@@ -42,5 +42,6 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   FULL_NAME: 'Full name is mandatory',
   INVALID_PRONOUN: 'Invalid pronoun choosen',
   INVALID_ID: '_id doesnt match type of ObjectId. Please input proper _id',
-  EMAIL_NOT_SENT: 'There was an error sending the email. Try again later!'
+  EMAIL_NOT_SENT: 'There was an error sending the email. Try again later!',
+  EMAIL_NOT_PRESENT: 'Please provide user email address to signup'
 }

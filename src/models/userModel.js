@@ -10,9 +10,9 @@ userSchema.pre(/^find/, function(next) {
 
 userSchema.methods.createSignUpConfirmationCode = function () {
   const resetToken = crypto.randomBytes(6).toString('base64');
-  console.log({ resetToken }, this.signUpConfirmationToken);
-  this.signUpConfirmationToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-  console.log({ resetToken }, this.signUpConfirmationToken);
+  // console.log({ resetToken }, this.signUpConfirmationToken);
+  // this.signUpConfirmationToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.signUpConfirmationToken = resetToken;
   this.signUpCodeExpiresIn = Date.now() + 10 * 60 * 1000; 
   return resetToken;
 };

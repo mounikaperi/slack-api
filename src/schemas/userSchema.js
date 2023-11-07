@@ -56,6 +56,10 @@ exports.userSchema = new mongoose.Schema({
     type: String,
     description: "The user's title."
   },
-  signUpConfirmationToken: String,
-  signUpCodeExpiresIn: Date
+  signUpConfirmationToken: {
+    type: String
+  },
+  signUpCodeExpiresIn: {
+    type: Date
+  }
 });
