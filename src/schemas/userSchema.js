@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const { USER_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
+const Workspace = require('../models/workspaceModel');
+const Channel = require('../models/channelModel');
 
 exports.userSchema = new mongoose.Schema({
   displayName: {
@@ -48,10 +50,6 @@ exports.userSchema = new mongoose.Schema({
     type: String,
     description: "The displayed text of up to 100 characters. We strongly encourage brevity. See custom status for more info."
   },
-  workspace: {
-    type: String,
-    description: "The ID of the workspace the user is in."
-  },
   title: {
     type: String,
     description: "The user's title."
@@ -89,5 +87,15 @@ exports.userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
     select: false
+  },
+  workspaces: {
+    type: [mongoose.Schema.ObjectId],
+    ref: Workspace,
+    description: "The ID of the workspace user belongs to. User can be part of multiple workspaces"
+  },
+  channels: {
+    type: [mongoose.Schema.ObjectId],
+    ref: Channel,
+    description: "The channels where the user is part of and the permissions of the user in the channel. For Eg: can only read messages from channel or can read and post messages as well"
   }
 });

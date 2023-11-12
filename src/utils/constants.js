@@ -52,10 +52,23 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   PASSWORD_CONFIRMATION_REQUIRED: 'Please confirm your password',
   PASSWORD_MISMATCH: 'Entered password and confirmPassword aren\'t same',
   LOGIN_PASSWORD_MISMATCH: 'Entered password is invalid. Please enter valid password',
-  USER_NOT_PRESENT: 'The entered user email address isn\'t present in the records. Please signup'
+  USER_NOT_PRESENT: 'The entered user email address isn\'t present in the records. Please signup',
 };
 
 exports.WORKSPACE_SCHEMA_VALIDATION_ERRORS = {
   URL: 'Workspace Url cannot be empty',
+  NAME: 'Workspace Name cannot be empty',
+  CREATED_BY: 'Workspace is createdBy username is mandatory',
   WORKSPACE_NOT_FOUND: 'The workspace doesnt exists. Please create one'
 };
+
+exports.CHANNEL_SCHEMA_VALIDATION_ERRORS = {
+  NAME: 'Channel Name cannot be empty',
+  CREATED_BY: 'CreatedBy is required for the channel creation',
+  WORKSPACE_NEEDED: 'Channel belongs to workspaces information is mandatory'
+};
+
+exports.CHANNEL_TYPES = {
+  PUBLIC: 'Public',
+  PRIVATE: 'Private'
+}

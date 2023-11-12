@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
-const { USER_SCHEMA_VALIDATION_ERRORS, WORKSPACE_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
+const { WORKSPACE_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
+const Channel = require('../models/channelModel');
 
 exports.workspaceSchema = new mongoose.Schema({
   workspaceUrl: {
@@ -8,5 +8,20 @@ exports.workspaceSchema = new mongoose.Schema({
     description: "This url is required to login to the workspace",
     required: [true, WORKSPACE_SCHEMA_VALIDATION_ERRORS.URL],
     unique: true
+  },
+  workspaceName: {
+    type: String,
+    description: "This field gives the name of the workspace",
+    required: [true, WORKSPACE_SCHEMA_VALIDATION_ERRORS.NAME],
+    unique: true
+  },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: User,
+    required: [true, WORKSPACE_SCHEMA_VALIDATION_ERRORS.CREATED_BY]
+  },
+  channels: {
+    type: [mongoose.Schema.ObjectId],
+    ref: Channel
   }
 });
