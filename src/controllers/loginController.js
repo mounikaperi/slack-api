@@ -130,3 +130,58 @@ exports.signInWithEmailNPassword = catchAsync(async (request, response, next) =>
   }
   createSendToken(user, HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK, response);
 });
+
+exports.forgotPassword = catchAsync(async (request, response, next) => {
+  const user = await User.findOne({email: request.body.email});
+  if (!user) {
+    return next(
+      new AppError(USER_SCHEMA_VALIDATION_ERRORS.USER_NOT_PRESENT),
+      HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.BAD_REQUEST
+    );
+  }
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+  const resetUrl = `${request.protocol}://${request.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetUrl}.\nIf you didn't forget your password, please ignore this email!`;
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Your password reset token (valid for 10 mins)',
+      message
+    });
+    response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK).json({
+      status: HTTP_STATUS.SUCCESS,
+      token: resetToken,
+      message: 'Token sent to email'
+    });
+  } catch (error) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    return next(
+      new AppError(USER_SCHEMA_VALIDATION_ERRORS.EMAIL_NOT_SENT),
+      HTTP_STATUS_CODES.SERVER_ERROR_RESPONSE.INTERNAL_SERVER_ERROR
+    );
+  }
+});
+
+exports.resetPassword = catchAsync(async (request, response, next) => {
+  const hashedToken = crypto.createHash('sha256').update(request.params.token).digest('hex');
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() }
+  });
+  // If the token hasn't expired and user is present in db set the new password
+  if (!user) {
+    return next(new AppError(
+      USER_SCHEMA_VALIDATION_ERRORS.EXPIRED_RESET_TOKEN,
+      HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.BAD_REQUEST
+    ));
+  }
+  user.password = request.body.password;
+  user.passwordConfirm = request.body.passwordConfirm;
+  user.passwordResetExpires = undefined;
+  user.passwordResetToken = undefined;
+  await user.save();
+  // Log the user in and send JWT
+  createSendToken(user, HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK, response);
+});

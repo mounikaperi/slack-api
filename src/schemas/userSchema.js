@@ -48,7 +48,7 @@ exports.userSchema = new mongoose.Schema({
     type: String,
     description: "The displayed text of up to 100 characters. We strongly encourage brevity. See custom status for more info."
   },
-  team: {
+  workspace: {
     type: String,
     description: "The ID of the workspace the user is in."
   },
@@ -60,6 +60,12 @@ exports.userSchema = new mongoose.Schema({
     type: String
   },
   signUpCodeExpiresIn: {
+    type: Date
+  },
+  passwordResetToken: {
+    type: String
+  },
+  passwordResetExpires: {
     type: Date
   },
   password: {

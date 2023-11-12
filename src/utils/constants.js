@@ -46,6 +46,7 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   EMAIL_NOT_SENT: 'There was an error sending the email. Try again later!',
   EMAIL_NOT_PRESENT: 'Please provide user email address to signup',
   EXPIRED_CONFIRMATION_CODE: 'Confirmation Code is invalid or has expired',
+  EXPIRED_RESET_TOKEN: 'Reset Token is invalid or has expired',
   EMAIL_PASSWORD_NOT_PROVIDED: 'Email or password cannot be blank. Please provide valid email and password',
   PASSWORD_NOT_PROVIDED: 'Please provide password',
   PASSWORD_CONFIRMATION_REQUIRED: 'Please confirm your password',

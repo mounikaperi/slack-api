@@ -13,4 +13,6 @@ router.patch('/signInWithMagicalCode/:code', loginController.signInWithMagicalCo
 //    forgotPassword functionality - enter your email. reset link will be sent - resetPassword should be done
 router.post('/signUpWithEmailNPassword', loginController.signUpWithEmailNPassword);
 router.post('/signInWithEmailNPassword', loginController.signInWithEmailNPassword);
+router.post('/forgotPassword/', loginController.forgotPassword);
+router.patch('/resetPassword/:resetToken', loginController.resetPassword);
 module.exports = router;
