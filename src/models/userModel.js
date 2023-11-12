@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
-const {userSchema} = require('../schemas/userSchema');
+const { userSchema } = require('../schemas/userSchema');
 
 userSchema.pre(/^find/, function(next) {
   // this points to the current query

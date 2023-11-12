@@ -45,4 +45,9 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   EMAIL_NOT_SENT: 'There was an error sending the email. Try again later!',
   EMAIL_NOT_PRESENT: 'Please provide user email address to signup',
   EXPIRED_CONFIRMATION_CODE: 'Confirmation Code is invalid or has expired'
-}
+};
+
+exports.WORKSPACE_SCHEMA_VALIDATION_ERRORS = {
+  URL: 'Workspace Url cannot be empty',
+  WORKSPACE_NOT_FOUND: 'The workspace doesnt exists. Please create one'
+};
