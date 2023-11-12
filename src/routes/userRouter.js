@@ -8,4 +8,6 @@ router
   .route('/:id')
   .get(userController.getUser);
 
+// Leave Workspace
+router.post('/:id/workspaces/:workspaceId', userController.leaveWorkspace);
 module.exports = router;

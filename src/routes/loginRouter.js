@@ -16,3 +16,5 @@ router.post('/signInWithEmailNPassword', loginController.signInWithEmailNPasswor
 router.post('/forgotPassword/', loginController.forgotPassword);
 router.patch('/resetPassword/:resetToken', loginController.resetPassword);
 module.exports = router;
+
+// Flow-3: Sign Out Functionality
