@@ -11,5 +11,6 @@ router.patch('/signInWithMagicalCode/:code', loginController.signInWithMagicalCo
 // 1. Sign in via Okta  - Give an octa page to Sign in
 // 2. Sign in via guest account - Enter username and password - if valid sign in
 //    forgotPassword functionality - enter your email. reset link will be sent - resetPassword should be done
-// router.post('/cr')
+router.post('/signUpWithEmailNPassword', loginController.signUpWithEmailNPassword);
+router.post('/signInWithEmailNPassword', loginController.signInWithEmailNPassword);
 module.exports = router;

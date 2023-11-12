@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const { userSchema } = require('../schemas/userSchema');
 
 userSchema.pre(/^find/, function(next) {
@@ -14,6 +15,10 @@ userSchema.methods.createSignUpConfirmationCode = function () {
   this.signUpConfirmationToken = resetToken;
   this.signUpCodeExpiresIn = Date.now() + 60 * 60 * 1000; 
   return resetToken;
+};
+
+userSchema.methods.comparePasswords = async function (enteredPassword, userPassword) {
+  return await bcrypt.compare(enteredPassword, userPassword);
 };
 
 const User = mongoose.model('User', userSchema);
