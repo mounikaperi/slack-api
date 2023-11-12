@@ -73,16 +73,21 @@ exports.userSchema = new mongoose.Schema({
     required: [true, USER_SCHEMA_VALIDATION_ERRORS.PASSWORD_NOT_PROVIDED],
     minLength: 8,
     select: false,
-    validate: [validator.isStrongPassword, USER_SCHEMA_VALIDATION_ERRORS.VALID_PASSWORD], 
+    validate: [validator.isStrongPassword, USER_SCHEMA_VALIDATION_ERRORS.VALID_PASSWORD],
   },
   passwordConfirm: {
     type: String,
     required: [true, USER_SCHEMA_VALIDATION_ERRORS.PASSWORD_CONFIRMATION_REQUIRED],
     validate: {
-      validator: function(el) {
+      validator: function (el) {
         return el === this.password;
       },
       message: USER_SCHEMA_VALIDATION_ERRORS.PASSWORD_MISMATCH
     }
+  },
+  active: {
+    type: Boolean,
+    default: true,
+    select: false
   }
 });

@@ -51,6 +51,7 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   PASSWORD_NOT_PROVIDED: 'Please provide password',
   PASSWORD_CONFIRMATION_REQUIRED: 'Please confirm your password',
   PASSWORD_MISMATCH: 'Entered password and confirmPassword aren\'t same',
+  LOGIN_PASSWORD_MISMATCH: 'Entered password is invalid. Please enter valid password',
   USER_NOT_PRESENT: 'The entered user email address isn\'t present in the records. Please signup'
 };
 

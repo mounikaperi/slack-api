@@ -1,5 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const AppError = require('../utils/AppError');
 const sendEmail = require('../utils/email');
 const User = require('../models/userModel');
@@ -22,7 +23,6 @@ const createSendToken = (user, statusCode, response) => {
   response.password = undefined; // Remove password from output
   response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK).json({
     status: HTTP_STATUS.SUCCESS,
-    token,
     data: {
       user
     }
@@ -114,8 +114,8 @@ exports.signInWithEmailNPassword = catchAsync(async (request, response, next) =>
     ));
   }
   // Check if user still exists and is active and the entered password is correct
-  const user = await User.findOne({ email }).select(+password);
-  if (!user) {
+  const user = await User.findOne({ email }).select('+password');
+  if (!user.email && !user.password) {
     return next(new AppError(
       USER_SCHEMA_VALIDATION_ERRORS.USER_NOT_PRESENT,
       HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.BAD_REQUEST
@@ -124,7 +124,7 @@ exports.signInWithEmailNPassword = catchAsync(async (request, response, next) =>
   const isPasswordValid = await user.comparePasswords(password, user.password);
   if (!isPasswordValid) {
     return next(new AppError(
-      USER_SCHEMA_VALIDATION_ERRORS.PASSWORD_MISMATCH,
+      USER_SCHEMA_VALIDATION_ERRORS.LOGIN_PASSWORD_MISMATCH,
       HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.BAD_REQUEST
     ));
   }
@@ -165,7 +165,7 @@ exports.forgotPassword = catchAsync(async (request, response, next) => {
 });
 
 exports.resetPassword = catchAsync(async (request, response, next) => {
-  const hashedToken = crypto.createHash('sha256').update(request.params.token).digest('hex');
+  const hashedToken = crypto.createHash('sha256').update(request.params.resetToken).digest('hex');
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() }
