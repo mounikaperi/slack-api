@@ -5,9 +5,10 @@ const AppError = require('../utils/AppError');
 const sendEmail = require('../utils/email');
 const User = require('../models/userModel');
 const { HTTP_STATUS_CODES, HTTP_STATUS, USER_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
+const { promisify } = require('util');
 
 const signToken = (id) => {
-  return jwt.sign({id}, process.env.JWT_TOKEN, { expiresIn: process.env.JWT_EXPIRES_IN });
+  return jwt.sign({id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 };
 
 const createSendToken = (user, statusCode, response) => {
@@ -185,3 +186,71 @@ exports.resetPassword = catchAsync(async (request, response, next) => {
   // Log the user in and send JWT
   createSendToken(user, HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK, response);
 });
+
+exports.logout = (request, response) => {
+  response.cookie('jwt', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+  response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK).json({
+    status: HTTP_STATUS.SUCCESS
+  });
+};
+
+exports.protect = catchAsync(async(request, response, next) => {
+  // Get the token and check if it is there and valid
+  let token;
+  if (request.headers.authorization && request.headers.authorization.startsWith('Bearer')) {
+    token = request.headers.authorization.split(' ')[1];
+  } else if (request.cookies.jwt) {
+    token = request.cookies.jwt;
+  }
+  if (!token) {
+    return next(new AppError(
+      USER_SCHEMA_VALIDATION_ERRORS.NOT_LOGGED_IN,
+      HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.UNAUTHORIZED
+    ))
+  }
+  const decodedToken = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  // Check if user still exists
+  const currentUser = await User.findById(decodedToken.id);
+  if (!currentUser) {
+    return next(new AppError(
+      USER_SCHEMA_VALIDATION_ERRORS.USER_WITH_TOKEN_NOT_PRESENT,
+      HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.UNAUTHORIZED
+    ))
+  }
+  // Check if the user changed password after the token has been issued
+  if (currentUser.hasPasswordChangedAfterTokenIssued(decoded.iat)) {
+    return next(new AppError(
+      USER_SCHEMA_VALIDATION_ERRORS.PASSWORD_CHANGED_RECENTLY,
+      HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.UNAUTHORIZED
+    ))
+  }
+  request.user = currentUser;
+  response.locals.user = currentUser;
+  next();
+});
+
+exports.isLoggedIn = async (request, response, next) => {
+  if (request.cookies.jwt) {
+    try {
+      const decodedToken = await promisify(jwt.verify)(request.cookies.jwt, process.env.JWT_SECRET);
+      // Check if user still exists
+      const currentUser = await User.findById(decodedToken.id);
+      if (!currentUser) {
+        return next();
+      }
+      // Check if user changed password after the token was issued
+      if (currentUser.hasPasswordChangedAfterTokenIssued(decoded.iat)) {
+        return next();
+      }
+      // there is a logged in user
+      response.locals.user = currentUser;
+      return next();
+    } catch (error) {
+      return next();
+    }
+  }
+  next();
+}

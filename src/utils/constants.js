@@ -53,6 +53,9 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   PASSWORD_MISMATCH: 'Entered password and confirmPassword aren\'t same',
   LOGIN_PASSWORD_MISMATCH: 'Entered password is invalid. Please enter valid password',
   USER_NOT_PRESENT: 'The entered user email address isn\'t present in the records. Please signup',
+  NOT_LOGGED_IN: 'You are not logged in! Please log in to get access',
+  USER_WITH_TOKEN_NOT_PRESENT: 'The user belonging to this token does no longer exist.',
+  PASSWORD_CHANGED_RECENTLY: 'User recently changed password! Please log in again.'
 };
 
 exports.WORKSPACE_SCHEMA_VALIDATION_ERRORS = {

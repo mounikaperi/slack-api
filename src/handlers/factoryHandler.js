@@ -67,4 +67,41 @@ exports.createOne = (Model) => {
   });
 };
 
-exports.updateOne
+exports.updateOne = (Model) => {
+  catchAsync (async(request, response, next) => {
+    const document = await Model.findByIdAndUpdate(request.params.id, request.body, {
+      new: true,
+      runValidators: true
+    });
+    if (!document) {
+      return next(new AppError(
+        COMMON_MODEL_ERRORS.NO_DOCUMENT_FOUND,
+        HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.NOT_FOUND
+      ));
+    }
+    response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK).json({
+      status: HTTP_STATUS.SUCCESS,
+      data: {
+        data: document
+      }
+    });
+  });
+};
+
+exports.deleteOne = (Model) => {
+  catchAsync (async(request, response, next) => {
+    const document = await Model.findByIdAndDelete(request.params.id);
+    if (!document) {
+      return next(new AppError(
+        COMMON_MODEL_ERRORS.NO_DOCUMENT_FOUND,
+        HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.NOT_FOUND
+      ));
+    }
+    response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.NO_CONTENT).json({
+      status: HTTP_STATUS.SUCCESS,
+      data: {
+        data: document
+      }
+    });
+  });
+}

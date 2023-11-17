@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api/v1/signIn', loginRouter);
+app.use('/api/v1/auth', loginRouter);
 app.use('/api/v1/workspaces', workspaceRouter);
 app.use('/api/v1/channels', channelRouter);
 app.use('/api/v1/users', userRouter);

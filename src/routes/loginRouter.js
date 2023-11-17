@@ -4,7 +4,7 @@ const loginController = require('../controllers/loginController');
 const router = express.Router();
 
 // Flow -1: Login via Email Only - Confirmation code will be sent to Email - reenter code to signin
-router.post('/createSignInMagicalCode', loginController.createSignInMagicalCode);
+router.post('/', loginController.createSignInMagicalCode);
 router.patch('/signInWithMagicalCode/:code', loginController.signInWithMagicalCode);
 
 // Flow -2: Login manually- Needs workspace as Input - if workspace present

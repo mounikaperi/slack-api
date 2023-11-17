@@ -16,10 +16,11 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-// userSchema.pre('save', function(next) {
-//   this.find({ active: { $ne: false } }); // find only active users. deleted users will be present in db but will be marked to inactive
-//   next();
-// });
+userSchema.pre('save', function(next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
 
 userSchema.methods.createSignUpConfirmationCode = function () {
   const resetToken = crypto.randomBytes(6).toString('base64');
@@ -43,6 +44,14 @@ userSchema.methods.comparePasswords = async function(enteredPassword, userPasswo
   return await bcrypt.compare(enteredPassword, userPassword);
   // return enteredPassword === userPassword;
 };
+
+userSchema.methods.hasPasswordChangedAfterTokenIssued = function(JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt((this.passwordChangedAt.getTime() / 1000), 10);
+    return JWTTimestamp < changedTimestamp;
+  }
+  return false;
+}
 
 const User = mongoose.model('User', userSchema);
 

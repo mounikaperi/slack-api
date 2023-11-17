@@ -89,6 +89,10 @@ exports.userSchema = new mongoose.Schema({
     },
     description: "password and passwordConfirm should always be the same"
   },
+  passwordChangedAt: {
+    type: Date,
+    description: 'The date and time when password was changed'
+  },
   active: {
     type: Boolean,
     default: true,
