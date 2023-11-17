@@ -4,7 +4,7 @@ const { HTTP_STATUS_CODES, HTTP_STATUS, WORKSPACE_SCHEMA_VALIDATION_ERRORS } = r
 const Workspace = require('../models/workspaceModel');
 const AppError = require('../utils/AppError');
 
-exports.getWorkspace = async (request, response, next) => {
+exports.getWorkspaceByUrl = async (request, response, next) => {
   const workspace = await Workspace.find({workspaceUrl: request.params.workspaceUrl});
   if (!workspace) {
     return next(
@@ -22,14 +22,12 @@ exports.getWorkspace = async (request, response, next) => {
   });
 };
 
-exports.createWorkspace = catchAsync (async (request, response, next) => {
-  const newWorkspace = await Workspace.create({
-    workspaceUrl: request.body.workspaceUrl
-  })
-  response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.CREATED).json({
-    status: HTTP_STATUS.SUCCESS,
-    data: {
-      workspace: newWorkspace
-    }
-  });
-});
+exports.createWorkspace = factoryHandler.createOne(Workspace);
+
+exports.getWorkspace = factoryHandler.getOne(Workspace);
+
+exports.updateWorkspace = factoryHandler.updateOne(Workspace);
+
+exports.deleteWorkspace = factoryHandler.deleteOne(Workspace);
+
+exports.leaveWorkspace = {};

@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
 const APIFeatures = require('../utils/APIFeatures');
-const { COMMON_MODEL_ERRORS, HTTP_STATUS_CODES, HTTP_STATUS, USER_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
+const { COMMON_MODEL_ERRORS, HTTP_STATUS_CODES, HTTP_STATUS } = require('../utils/constants');
 
 exports.getOne = (Model, options) =>
   catchAsync(async (request, response, next) => {
     if( !mongoose.Types.ObjectId.isValid(request.params.id) ) {
       return next(
         new AppError(
-          USER_SCHEMA_VALIDATION_ERRORS.INVALID_ID,
+          COMMON_MODEL_ERRORS.INVALID_ID,
           HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.BAD_REQUEST,
         ),
       );

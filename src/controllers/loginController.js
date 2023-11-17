@@ -254,3 +254,15 @@ exports.isLoggedIn = async (request, response, next) => {
   }
   next();
 }
+
+exports.restrictTo = (...roles) => {
+  return (request, response, next) => {
+    if (!roles.includes(request.user.role)) {
+      return next(new AppError(
+        USER_SCHEMA_VALIDATION_ERRORS.UNAUTHORIZED,
+        HTTP_STATUS_CODES.CLIENT_ERROR_RESPONSE.FORBIDDEN
+      ))
+    }
+    next();
+  }
+}

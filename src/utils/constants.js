@@ -34,6 +34,7 @@ exports.HTTP_STATUS_MESSAGES = {
 
 exports.COMMON_MODEL_ERRORS = {
   NO_DOCUMENT_FOUND: 'No document found with that ID',
+  INVALID_ID: '_id doessnt match type of ObjectId. Please input proper _id'
 };
 
 exports.USER_SCHEMA_VALIDATION_ERRORS = {
@@ -42,7 +43,6 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   EMAIL: 'Email address is required',
   FULL_NAME: 'Full name is mandatory',
   INVALID_PRONOUN: 'Invalid pronoun choosen',
-  INVALID_ID: '_id doesnt match type of ObjectId. Please input proper _id',
   EMAIL_NOT_SENT: 'There was an error sending the email. Try again later!',
   EMAIL_NOT_PRESENT: 'Please provide user email address to signup',
   EXPIRED_CONFIRMATION_CODE: 'Confirmation Code is invalid or has expired',
@@ -55,7 +55,8 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   USER_NOT_PRESENT: 'The entered user email address isn\'t present in the records. Please signup',
   NOT_LOGGED_IN: 'You are not logged in! Please log in to get access',
   USER_WITH_TOKEN_NOT_PRESENT: 'The user belonging to this token does no longer exist.',
-  PASSWORD_CHANGED_RECENTLY: 'User recently changed password! Please log in again.'
+  PASSWORD_CHANGED_RECENTLY: 'User recently changed password! Please log in again.',
+  UNAUTHORIZED: 'You are unauthorized to perform this action'
 };
 
 exports.WORKSPACE_SCHEMA_VALIDATION_ERRORS = {
