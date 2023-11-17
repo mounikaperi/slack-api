@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/AppError');
+const APIFeatures = require('../utils/APIFeatures');
 const { COMMON_MODEL_ERRORS, HTTP_STATUS_CODES, HTTP_STATUS, USER_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
 
 exports.getOne = (Model, options) =>
@@ -28,4 +29,42 @@ exports.getOne = (Model, options) =>
       status: HTTP_STATUS.SUCCESS,
       data: returnedDocument,
     });
+});
+
+exports.getAll = (Model) => {
+  catchAsync (async(request, response, next) => {
+    let filter = {};
+    if (request.params.workspaceId) {
+      filter = {
+        workspace: request.params.workspaceId
+      };
+    }
+    const features = new APIFeatures(Model.find(filter), request.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const document = await features.query;
+    response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.OK).json({
+      status: HTTP_STATUS.SUCCESS,
+      results: document.length,
+      data: {
+        data: document
+      }
+    })
   });
+};
+
+exports.createOne = (Model) => {
+  catchAsync(async (request, response, next) => {
+    const document = await Model.create(request.body);
+    response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.CREATED).json({
+      status: HTTP_STATUS.SUCCESS,
+      data: {
+        data: document
+      }
+    });
+  });
+};
+
+exports.updateOne

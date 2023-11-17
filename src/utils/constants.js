@@ -65,10 +65,5 @@ exports.WORKSPACE_SCHEMA_VALIDATION_ERRORS = {
 exports.CHANNEL_SCHEMA_VALIDATION_ERRORS = {
   NAME: 'Channel Name cannot be empty',
   CREATED_BY: 'CreatedBy is required for the channel creation',
-  WORKSPACE_NEEDED: 'Channel belongs to workspaces information is mandatory'
+  WORKSPACE_NEEDED: 'Workspace is required for non-public channels'
 };
-
-exports.CHANNEL_TYPES = {
-  PUBLIC: 'Public',
-  PRIVATE: 'Private'
-}

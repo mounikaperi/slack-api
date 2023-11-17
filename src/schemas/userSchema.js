@@ -55,16 +55,20 @@ exports.userSchema = new mongoose.Schema({
     description: "The user's title."
   },
   signUpConfirmationToken: {
-    type: String
+    type: String,
+    description: "This is the confirmationCode sent to email while signing up"
   },
   signUpCodeExpiresIn: {
-    type: Date
+    type: Date,
+    description: "This specifies the time by which the confirmationCode will expire in"
   },
   passwordResetToken: {
-    type: String
+    type: String,
+    description: "This is the resetToken sent while resetting the password"
   },
   passwordResetExpires: {
-    type: Date
+    type: Date,
+    description: "This is the time by which the resetToken sent for resetting the password will expire"
   },
   password: {
     type: String,
@@ -72,6 +76,7 @@ exports.userSchema = new mongoose.Schema({
     minLength: 8,
     select: false,
     validate: [validator.isStrongPassword, USER_SCHEMA_VALIDATION_ERRORS.VALID_PASSWORD],
+    description: "The password of the user that will be used to login"
   },
   passwordConfirm: {
     type: String,
@@ -81,21 +86,28 @@ exports.userSchema = new mongoose.Schema({
         return el === this.password;
       },
       message: USER_SCHEMA_VALIDATION_ERRORS.PASSWORD_MISMATCH
-    }
+    },
+    description: "password and passwordConfirm should always be the same"
   },
   active: {
     type: Boolean,
     default: true,
-    select: false
+    select: false,
+    description: "The user is valid and isnt't deleted from the database"
   },
-  workspaces: {
-    type: [mongoose.Schema.ObjectId],
-    ref: Workspace,
+  workspaces: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Workspace',
     description: "The ID of the workspace user belongs to. User can be part of multiple workspaces"
-  },
-  channels: {
-    type: [mongoose.Schema.ObjectId],
-    ref: Channel,
+  }],
+  channels: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Channel',
     description: "The channels where the user is part of and the permissions of the user in the channel. For Eg: can only read messages from channel or can read and post messages as well"
-  }
+  }],
+  messages: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Message',
+    description: 'This is an array of all the messages that are sent to a specific channel'
+  }]
 });

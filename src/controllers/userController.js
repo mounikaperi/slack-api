@@ -3,8 +3,6 @@ const catchAsync = require('../utils/catchAsync');
 const User = require('../models/userModel');
 const { HTTP_STATUS_CODES, HTTP_STATUS } = require('../utils/constants');
 
-exports.getUser = () => factoryHandler.getOne(User);
-
 exports.createUser = catchAsync (async (request, response, next) => {
   const newUser = await User.create({
     title: request.body.title,
@@ -26,3 +24,7 @@ exports.createUser = catchAsync (async (request, response, next) => {
   });
 
 });
+
+exports.getUser = () => factoryHandler.getOne(User);
+
+exports.getAllUsers = () => factoryHandler.g

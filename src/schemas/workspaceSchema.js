@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { WORKSPACE_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
-const Channel = require('../models/channelModel');
 
 exports.workspaceSchema = new mongoose.Schema({
   workspaceUrl: {
@@ -17,11 +16,18 @@ exports.workspaceSchema = new mongoose.Schema({
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,
-    ref: User,
-    required: [true, WORKSPACE_SCHEMA_VALIDATION_ERRORS.CREATED_BY]
+    ref: 'User',
+    required: [true, WORKSPACE_SCHEMA_VALIDATION_ERRORS.CREATED_BY],
+    description: "The user/admin who created the workspace"
   },
-  channels: {
-    type: [mongoose.Schema.ObjectId],
-    ref: Channel
-  }
+  channels: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Channel',
+    description: "List of all the channels that are part of the Workspace"
+  }],
+  users: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    description: "All the users that are part of the workspace"
+  }]
 });
