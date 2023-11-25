@@ -26,7 +26,7 @@ app.use('/api/v1/auth', loginRouter);
 app.use('/api/v1/workspaces', workspaceRouter);
 app.use('/api/v1/channels', channelRouter);
 app.use('/api/v1/users', userRouter);
-app.use('/api/v1/messages', messageRouter);
+// app.use('/api/v1/messages', messageRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

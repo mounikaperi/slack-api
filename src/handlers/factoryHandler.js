@@ -6,7 +6,7 @@ const { COMMON_MODEL_ERRORS, HTTP_STATUS_CODES, HTTP_STATUS } = require('../util
 
 exports.getOne = (Model, options) =>
   catchAsync(async (request, response, next) => {
-    if( !mongoose.Types.ObjectId.isValid(request.params.id) ) {
+    if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
       return next(
         new AppError(
           COMMON_MODEL_ERRORS.INVALID_ID,
@@ -29,10 +29,10 @@ exports.getOne = (Model, options) =>
       status: HTTP_STATUS.SUCCESS,
       data: returnedDocument,
     });
-});
+  });
 
-exports.getAll = (Model) => {
-  catchAsync (async(request, response, next) => {
+exports.getAll = (Model) =>
+  catchAsync(async (request, response, next) => {
     let filter = {};
     if (request.params.workspaceId) {
       filter = {
@@ -53,9 +53,8 @@ exports.getAll = (Model) => {
       }
     })
   });
-};
 
-exports.createOne = (Model) => {
+exports.createOne = (Model) =>
   catchAsync(async (request, response, next) => {
     const document = await Model.create(request.body);
     response.status(HTTP_STATUS_CODES.SUCCESSFUL_RESPONSE.CREATED).json({
@@ -65,10 +64,9 @@ exports.createOne = (Model) => {
       }
     });
   });
-};
 
-exports.updateOne = (Model) => {
-  catchAsync (async(request, response, next) => {
+exports.updateOne = (Model) => 
+  catchAsync(async (request, response, next) => {
     const document = await Model.findByIdAndUpdate(request.params.id, request.body, {
       new: true,
       runValidators: true
@@ -86,10 +84,10 @@ exports.updateOne = (Model) => {
       }
     });
   });
-};
 
-exports.deleteOne = (Model) => {
-  catchAsync (async(request, response, next) => {
+
+exports.deleteOne = (Model) => 
+  catchAsync(async (request, response, next) => {
     const document = await Model.findByIdAndDelete(request.params.id);
     if (!document) {
       return next(new AppError(
@@ -104,4 +102,3 @@ exports.deleteOne = (Model) => {
       }
     });
   });
-}

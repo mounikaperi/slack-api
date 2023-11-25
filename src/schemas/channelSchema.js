@@ -27,6 +27,7 @@ exports.channelSchema = new mongoose.Schema({
   isPublic: {
     type: Boolean,
     default: true,
+    required: [true, CHANNEL_SCHEMA_VALIDATION_ERRORS.CHANNEL_TYPE_NEEDED],
     description: 'The channel can be public or private. Private channels are specfic to the workspace. This attribute specifies if the channel is public or private'
   },
   usersPartOfChannel: [{

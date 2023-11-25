@@ -5,8 +5,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(workspaceController.createWorkspace)
   .get(workspaceController.getAllWorkspaces)
+  .post(workspaceController.createWorkspace)
 
 router
   .route('/:id')

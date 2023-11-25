@@ -24,7 +24,7 @@ exports.workspaceSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Channel',
     description: "List of all the channels that are part of the Workspace"
-  }],
+}],
   users: [{
     type: mongoose.Schema.ObjectId,
     ref: 'User',
