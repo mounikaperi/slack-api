@@ -115,4 +115,28 @@ exports.userSchema = new mongoose.Schema({
     },
     description: "The channels where the user is part of and the permissions of the user in the channel. For Eg: can only read messages from channel or can read and post messages as well"
   }],
+  messagesToChannel: [{
+    channelId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Channel',
+      description: 'The channel to which user posted the message'
+    },
+    message: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Message',
+      description: 'The message which is posted to the channel by user'
+    }
+  }],
+  messagesToUser: [{
+    userId: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      description: 'The user to which message is being sent'
+    },
+    message: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Message',
+      description: 'The message which is sent to a user by current user'
+    }
+  }],
 });

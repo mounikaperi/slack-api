@@ -43,9 +43,16 @@ exports.channelSchema = new mongoose.Schema({
     message: CHANNEL_SCHEMA_VALIDATION_ERRORS.WORKSPACE_NEEDED,
     description: 'Specifies all the workspaces that own this channel. Public channels are visible to all workspaces. Private channels are specific to the workspace where it is created'
   }],
-  ChannelMessages: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Message',
-    description: 'Contains all the messages that are sent as part of this channel'
-  }]
+  channelMessages: [{
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      description: 'The User who posted the message to Channel'
+    },
+    message: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Message',
+      description: 'The message which is posted to the channel by user'
+    }
+  }],
 });

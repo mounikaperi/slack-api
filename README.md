@@ -53,3 +53,4 @@ PATCH /workspaces/:id/channels/:id
   Update a particular channel information
 DELETE /workspaces/:id/channels/:id
   Delete a channel
+
