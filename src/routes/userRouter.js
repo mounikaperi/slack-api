@@ -3,11 +3,14 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.post('/', userController.createUser);
+router
+  .route('/')
+  .get(userController.getAllUsers);
+
 router
   .route('/:id')
-  .get(userController.getUser);
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
-// Leave Workspace
-router.post('/:id/workspaces/:workspaceId', userController.leaveWorkspace);
 module.exports = router;

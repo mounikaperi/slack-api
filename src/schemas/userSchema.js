@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const { USER_SCHEMA_VALIDATION_ERRORS } = require('../utils/constants');
-const Workspace = require('../models/workspaceModel');
-const Channel = require('../models/channelModel');
 
 exports.userSchema = new mongoose.Schema({
   displayName: {
@@ -104,14 +102,18 @@ exports.userSchema = new mongoose.Schema({
     ref: 'Workspace',
     description: "The ID of the workspace user belongs to. User can be part of multiple workspaces"
   }],
-  channels: [{
+  channelsUserBelongsTo: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Channel',
     description: "The channels where the user is part of and the permissions of the user in the channel. For Eg: can only read messages from channel or can read and post messages as well"
   }],
-  messages: [{
+  messagesToOneself: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Message',
     description: 'This is an array of all the messages that are sent to a specific channel'
+  }],
+  messagesToOtherUsers: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
   }]
 });

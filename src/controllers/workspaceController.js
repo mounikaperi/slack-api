@@ -26,8 +26,8 @@ exports.createWorkspace = factoryHandler.createOne(Workspace);
 
 exports.getWorkspace = factoryHandler.getOne(Workspace);
 
+exports.getAllWorkspaces = factoryHandler.getAll(Workspace);
+
 exports.updateWorkspace = factoryHandler.updateOne(Workspace);
 
 exports.deleteWorkspace = factoryHandler.deleteOne(Workspace);
-
-exports.leaveWorkspace = {};

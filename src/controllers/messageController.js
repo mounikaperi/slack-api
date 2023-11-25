@@ -1,15 +1,18 @@
-exports.getAllMessagesSentForUser = {};
+const factoryHandler = require('../handlers/factoryHandler');
+const Message = require('../models/messageModel');
 
-exports.getAllMessagesSentInChannel = {};
+exports.getAllMessagesSentForUser = factoryHandler.getAll(Message);
 
-exports.postMessageToUser = {};
+exports.getAllMessagesSentInChannel = factoryHandler.getAll(Message);
 
-exports.postMessageInChannel = {};
+exports.postMessageToUser = factoryHandler.createOne(Message);
 
-exports.deleteMessageSentToUser = {};
+exports.postMessageInChannel = factoryHandler.createOne(Message);
 
-exports.deleteMessageSentInChannel = {};
+exports.deleteMessageSentToUser = factoryHandler.deleteOne(Message);
 
-exports.updateMessageSentToUser = {};
+exports.deleteMessageSentInChannel = factoryHandler.deleteOne(Message);
 
-exports.updateMessageSentInChannel = {};
+exports.updateMessageSentToUser = factoryHandler.updateOne(Message);
+
+exports.updateMessageSentInChannel = factoryHandler.updateOne(Message);

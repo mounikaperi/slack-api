@@ -30,12 +30,12 @@ exports.channelSchema = new mongoose.Schema({
     description: 'The channel can be public or private. Private channels are specfic to the workspace. This attribute specifies if the channel is public or private'
   },
   // UploadedFiles: [] TODO:
-  users: [{
+  usersPartOfChannel: [{
     type: mongoose.Schema.ObjectId,
-    ref: 'User'
+    ref: 'User',
     description: 'Specifies all the users that are part of this channel'
   }],
-  workspaces: [{
+  channelBelongsToWorkspaces: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Workspace',
     required: function () {
@@ -44,7 +44,7 @@ exports.channelSchema = new mongoose.Schema({
     message: CHANNEL_SCHEMA_VALIDATION_ERRORS.WORKSPACE_NEEDED,
     description: 'Specifies all the workspaces that own this channel. Public channels are visible to all workspaces. Private channels are specific to the workspace where it is created'
   }],
-  messages: [{
+  ChannelMessages: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Message',
     description: 'Contains all the messages that are sent as part of this channel'

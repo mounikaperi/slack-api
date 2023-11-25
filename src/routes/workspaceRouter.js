@@ -3,9 +3,19 @@ const workspaceController = require('../controllers/workspaceController.js');
 
 const router = express.Router();
 
-router.post('/', workspaceController.createWorkspace);
 router
-  .route('/:workspaceUrl')
-  .get(workspaceController.getWorkspace);
+  .route('/')
+  .post(workspaceController.createWorkspace)
+  .get(workspaceController.getAllWorkspaces)
+
+router
+  .route('/:id')
+  .get(workspaceController.getWorkspace)
+  .patch(workspaceController.updateWorkspace)
+  .delete(workspaceController.deleteWorkspace);
+
+router
+  .route('/:url')
+  .get(workspaceController.getWorkspaceByUrl);
 
 module.exports = router;
