@@ -29,7 +29,6 @@ exports.channelSchema = new mongoose.Schema({
     default: true,
     description: 'The channel can be public or private. Private channels are specfic to the workspace. This attribute specifies if the channel is public or private'
   },
-  // UploadedFiles: [] TODO:
   usersPartOfChannel: [{
     type: mongoose.Schema.ObjectId,
     ref: 'User',

@@ -56,7 +56,8 @@ exports.USER_SCHEMA_VALIDATION_ERRORS = {
   NOT_LOGGED_IN: 'You are not logged in! Please log in to get access',
   USER_WITH_TOKEN_NOT_PRESENT: 'The user belonging to this token does no longer exist.',
   PASSWORD_CHANGED_RECENTLY: 'User recently changed password! Please log in again.',
-  UNAUTHORIZED: 'You are unauthorized to perform this action'
+  UNAUTHORIZED: 'You are unauthorized to perform this action',
+  PERMISSION_NOT_ALLOWED: 'User is not having permissions to perform this operation'
 };
 
 exports.WORKSPACE_SCHEMA_VALIDATION_ERRORS = {

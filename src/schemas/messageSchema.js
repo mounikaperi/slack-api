@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 exports.messageSchema = new mongoose.Schema({
-  user: {
+  userWhoSentTheMessage: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
-    description: 'The user who has sent/recieved the message directly one to one'
+    description: 'The user who has sent/recieved the message'
   },
   message: {
     type: String,
@@ -15,9 +15,8 @@ exports.messageSchema = new mongoose.Schema({
     type: Date,
     description: 'The DateTime when message was sent/received'
   },
-  channel: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Channel',
-    descripton: 'Message that is been posted in the channel'
+  updatedDate: {
+    type: Date,
+    description: 'The DateTime when message was lastModified'
   }
 });

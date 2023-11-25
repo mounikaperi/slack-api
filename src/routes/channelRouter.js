@@ -18,4 +18,8 @@ router
   .route('/leaveChannel/:channelId/user/:userId')
   .patch(channelController.leaveChannel);
 
+router
+  .route('/:id/messages')
+  .get()
+
 module.exports = router;

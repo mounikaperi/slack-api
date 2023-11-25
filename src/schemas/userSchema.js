@@ -105,15 +105,14 @@ exports.userSchema = new mongoose.Schema({
   channelsUserBelongsTo: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Channel',
+    permisions: {
+      type: String,
+      description: "The permisions a user has to perform read/write operations in a channel",
+      enum: {
+        values: ['READ', 'WRITE', 'READ-WRITE'],
+        message: USER_SCHEMA_VALIDATION_ERRORS.PERMISSION_NOT_ALLOWED,
+      },
+    },
     description: "The channels where the user is part of and the permissions of the user in the channel. For Eg: can only read messages from channel or can read and post messages as well"
   }],
-  messagesToOneself: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Message',
-    description: 'This is an array of all the messages that are sent to a specific channel'
-  }],
-  messagesToOtherUsers: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'User'
-  }]
 });
